@@ -25,7 +25,6 @@ export default function Video() {
         const detections = await faceapi
           .detectAllFaces(ref.current, new faceapi.TinyFaceDetectorOptions())
           .withFaceExpressions();
-        console.log(detections);
         if (detections[0]?.expressions.happy === 1) {
           clearInterval(intervalId);
           stream?.getVideoTracks()[0].stop();
