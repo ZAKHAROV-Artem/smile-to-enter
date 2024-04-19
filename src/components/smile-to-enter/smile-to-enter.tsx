@@ -11,7 +11,6 @@ export default function SmileToEnter() {
   const getStream = useStream((state) => state.getStream);
   const happy = useHappy((state) => state.happy);
 
-  const loadFaceApi = async () => {};
   useEffect(() => {
     Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri("/models"),

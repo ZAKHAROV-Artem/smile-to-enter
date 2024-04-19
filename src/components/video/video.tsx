@@ -16,23 +16,26 @@ export default function Video() {
   );
   const setHappy = useHappy((state) => state.setHappy);
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current || !stream) return;
     ref.current.srcObject = stream;
 
-    ref.current.addEventListener("play", () => {
+    const detectFace = () => {
       const intervalId = setInterval(async () => {
         if (!ref.current) return;
         const detections = await faceapi
           .detectAllFaces(ref.current, new faceapi.TinyFaceDetectorOptions())
           .withFaceExpressions();
-        if (detections[0]?.expressions.happy === 1) {
+        if (detections[0]?.expressions.happy > 0.7) {
           clearInterval(intervalId);
           stream?.getVideoTracks()[0].stop();
           setHappy(true);
         }
-      }, 100);
-    });
+      }, 200);
+    };
+
+    ref.current.addEventListener("play", detectFace);
   }, [stream, setHappy]);
+
   return (
     <>
       {status === "success" && (
