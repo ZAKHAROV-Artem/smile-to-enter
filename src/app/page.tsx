@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { SmileToEnter } from "@/components/smile-to-enter";
-import { ReadAboutIt } from "./_components/read-about-it";
+import { ReadAboutIt } from "../components/read-about-it";
 
 export default function Home() {
   const [read, setRead] = useState<boolean>(false);

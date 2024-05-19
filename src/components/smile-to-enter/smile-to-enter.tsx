@@ -1,10 +1,10 @@
 "use client";
-import { useStream } from "@/hooks/use-stream";
-import { useEffect } from "react";
+
 import * as faceapi from "face-api.js";
+import { useEffect } from "react";
+import { useStream, useHappy } from "@/store";
 import { HomeScreen } from "../home";
 import { Video } from "../video";
-import { useHappy } from "@/hooks/use-happy";
 import toast from "react-hot-toast";
 
 export default function SmileToEnter() {
@@ -21,5 +21,5 @@ export default function SmileToEnter() {
     });
   }, [getStream]);
 
-  return <>{happy ? <HomeScreen /> : <Video />}</>;
+  return happy ? <HomeScreen /> : <Video />;
 }

@@ -1,20 +1,21 @@
 "use client";
-import { useStream } from "@/hooks/use-stream";
+import * as faceapi from "face-api.js";
+import { useHappy, useStream } from "@/store";
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
-import * as faceapi from "face-api.js";
-import { useHappy } from "@/hooks/use-happy";
+import Button from "@/components/ui/button";
 
 export default function Video() {
   const ref = useRef<HTMLVideoElement>(null);
 
+  const setHappy = useHappy((state) => state.setHappy);
   const { stream, status } = useStream(
     useShallow((state) => ({
       stream: state.stream,
       status: state.status,
     })),
   );
-  const setHappy = useHappy((state) => state.setHappy);
+
   useEffect(() => {
     if (!ref.current || !stream) return;
     ref.current.srcObject = stream;
@@ -25,7 +26,7 @@ export default function Video() {
         const detections = await faceapi
           .detectAllFaces(ref.current, new faceapi.TinyFaceDetectorOptions())
           .withFaceExpressions();
-        if (detections[0]?.expressions.happy > 0.7) {
+        if (detections[0]?.expressions.happy > 0.65) {
           clearInterval(intervalId);
           stream?.getVideoTracks()[0].stop();
           setHappy(true);
@@ -52,15 +53,7 @@ export default function Video() {
           <div>
             Okey dokey, I believe you are happy. You can see my website 🔑
           </div>
-
-          <button
-            className="mt-5 rounded-lg bg-secondary p-3"
-            onClick={() => {
-              setHappy(true);
-            }}
-          >
-            {`Let's go`}
-          </button>
+          <Button onClick={() => setHappy(true)}>{`Let's go`}</Button>
         </div>
       )}
     </>
