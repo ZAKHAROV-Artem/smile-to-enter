@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/utils/lib";
+import { cn } from "@/libs/utils";
 import { ButtonHTMLAttributes } from "react";
 
 export default function Button({
