@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Oldenburg } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
 
 const oldenburg = Oldenburg({ subsets: ["latin"], weight: ["400"] });
 
@@ -47,6 +48,7 @@ export default function RootLayout({
       <body className={oldenburg.className}>
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
